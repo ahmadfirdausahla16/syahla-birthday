@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birhtday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!--welcome-->
+    <section id="main">
+        <a id="link"><img id="img" src="Cat Love GIF by NGcorpvtc.gif" alt="Cute-Waiting.gif"></a>
+        <p id="sub">masih lama nih, tunggu ya..</p>
+        <div id="countdown">
+            <div class="countBox"><p id="days">0</p><span class="label">hari</span></div>
+            <div class="countBox"><p id="hours">0</p><span class="label">jam</span></div>
+            <div class="countBox"><p id="minutes">0</p><span class="label">menit</span></div>
+            <div class="countBox"><p id="seconds">0</p><span class="label">detik</span></div>
+        </div>
+    </section>
+
+    <!--style-->
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #main{
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 100dvh;
+            background-color: rgb(255, 215, 237);
+            align-items: center;
+            justify-content: center;
+        }
+        a{
+            height: auto;
+            width: auto;
+            position: relative;
+            display: flex;
+        }
+        img{
+            height: auto;
+            width: 200px;
+            border-radius: 20px;
+        }
+        img:active{
+            transform: scale(0.95);
+        }
+        #sub{
+            color: white;
+            font-weight: 550;
+            margin-bottom: 5rem;
+        }
+        #countdown{
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-radius: 20px;
+            /* background-color: rgb(255, 255, 255); */
+        }
+        .animate-tick{
+            animation: bounceIn 0.3s ease-out;
+        }
+        @keyframes bounceIn {
+            0% {transform: scale(1.2); opacity: 0.7;}
+            100% {transform: scale(1); opacity: 1;}
+        }
+        .countBox{
+            min-height: 130px;
+            min-width: 110px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+        .countBox p{
+            color: rgb(255, 102, 102);
+            font-size: 1.7rem;
+        }
+        .countBox span{
+            color: rgb(255, 102, 102);
+            font-size: 0.9rem;
+        }
+        #sub.status-selesai {
+            margin-bottom: 2.1rem;
+            color: rgb(255, 102, 102); 
+        }
+        @media (max-width: 620px) {
+            #sub {
+                margin-bottom: 5rem; 
+            }
+
+            #sub.status-selesai {
+                margin-bottom: 3.1rem; 
+            }
+        }
+        @media (max-width: 620px) {
+            img{
+                width: 130px;
+                height: auto;
+            }
+            #sub{
+                font-size: 1rem;
+            }
+            .countBox {
+                min-width: 60px;
+                min-height: 80px;
+                padding: 5px;
+                border-radius: 10px;
+            }
+            .countBox p {
+                font-size: 1.2rem;
+            }
+            .countBox span {
+                font-size: 0.9rem;
+            }
+            #countdown {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+
+    <!--script-->
+    <script>
+        const target = new Date("2026-02-20T17:43:00").getTime();
+        const elements = {
+            'hari' : document.getElementById('days'),
+            'jam' : document.getElementById('hours'),
+            'menit' : document.getElementById('minutes'),
+            'detik' : document.getElementById('seconds'),
+        };
+
+        const timer = setInterval(() => {
+            const now = Date.now();
+            const distance = target - now;
+
+            if (distance <= 0){
+                clearInterval(timer);
+                
+                const myLink = document.getElementById('link');
+                myLink.href ="./main/main.html";
+
+                const sub = document.getElementById('sub');
+                sub.textContent = "click tombolnya!";
+                // sub.style.color = "rgb(255, 102, 102)";
+                
+                if(window.innerWidth <= 620){
+                    sub.classList.add('status-selesai'); 
+                } else {
+                    sub.style.marginBottom = "2.1rem";
+                }
+                void sub.offsetWidth;
+                sub.classList.add('animate-tick');
+
+                const myImg = document.getElementById('img');
+                myImg.src = "Arrow Click GIF by Brave Unicorn.gif";
+            }
+
+            const h = Math.floor(distance/(1000 * 60 * 60 * 24));
+            const j = Math.floor(distance/(1000 * 60 * 60) % 24);
+            const m = Math.floor(distance/(1000 * 60) % 60);
+            const d = Math.floor(distance/(1000) % 60);
+
+            update(elements.hari, h);
+            update(elements.jam, j);
+            update(elements.menit, m);
+            update(elements.detik, d);
+        }, 1000);
+
+        function update(el, value){
+            if (el.textContent != value){
+                el.textContent = value;
+                el.classList.remove('animate-tick');
+                void el.offsetWidth;
+                el.classList.add('animate-tick');
+                if (el.textContent <= 0){
+                    el.textContent = 0;
+                }
+            };
+        }
+    </script>
+</body>
+</html>

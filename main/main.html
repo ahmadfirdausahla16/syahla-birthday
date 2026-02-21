@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birhtday</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="decor"></div>
+
+    <!--hero-->
+    <section id="hero">
+        <h1><span id="typing"></span><span id="cursor">|</span></h1>
+        <h2> dari ahla buat syahla</h2>
+        <div id="cardHero">
+            <div id="imgHero">
+                <div class="card-hero" id="back"><img id="imgBack" src="/main/sylaa.png"></div>
+                <div class="card-hero" id="front"><img id="imgFront" src="/main/syahla2.png"></div>
+            </div>
+            <img id="flowHero" src="flower.png">
+        </div>
+    </section>
+
+    <style>
+        body{
+            color: white;
+            margin: 0;
+            padding: 0;
+            font-family: 'Playfair Display', sans-serif;
+            background-color: #ffd6e7;
+            overflow-x: hidden;
+        }
+        #hero{
+            width: 100%;
+            min-height: 100dvh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #cursor {
+            display: inline-block;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        #cardHero{
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 400px;
+            height: 400px;
+            padding: 0px;
+        }
+        #hero h2{
+            font-size: 20px;
+            margin-top: 1px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        #hero h1{
+            font-size: 50px;
+            font-family: 'Dancing Script';
+            margin: 1px;
+            font-weight: 700;
+            color: rgb(255, 102, 102);
+        }
+        #imgHero{
+            position: relative;
+            min-width: auto;
+            min-height: auto;
+            display: flex;
+        }
+        #flowHero{
+            position: absolute;
+            display: flex;
+            width: 250px;
+            height: auto;
+            bottom: -30px;
+            right: -10px;
+            animation: goyangBack 1s ease-in-out infinite; 
+        }
+        .card-hero{
+            height: 300px;
+            width: 270px;
+            box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        #back{
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            padding-top: 0.8rem;
+            position: relative;
+            background-color: white;
+            transform: rotate(-4deg);
+            animation: goyangBack 1s ease-in-out infinite; 
+        }
+        #front{
+            display: flex;
+            justify-content: center;
+            align-items: start;
+            padding-top: 0.8rem;
+            position: absolute;
+            background-color: white;
+            right: -10px;
+            transform: rotate(4deg);
+            animation: goyangFront 1s ease-in-out infinite;
+        }
+        @keyframes goyangBack {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(-8deg); }
+        }
+        @keyframes goyangFront {
+            0%, 100% { transform: rotate(4deg); }
+            50% { transform: rotate(8deg); }
+        }
+        #imgFront{
+            width: 245px;
+            height: 245px;
+        }
+        #imgBack{
+            width: 245px;
+            height: 245px;
+        }
+        .balloon {
+        position: fixed;
+        bottom: -60px;
+        width: 30px;
+        height: 40px;
+        background: #ff6fae;
+        border-radius: 50%;
+        animation: floatUp 8s linear infinite;
+        z-index: 100;
+        opacity: 0.7;
+        pointer-events: none;
+        }
+        @keyframes floatUp {
+        0% { transform: translateY(0); opacity: 0; }
+        20% { opacity: 1; }
+        100% { transform: translateY(-120vh); opacity: 0; }
+        }
+        .confetti {
+        position: fixed;
+        top: -10px;
+        width: 6px;
+        height: 10px;
+        animation: fall 6s linear infinite;
+        z-index: 100;
+        pointer-events: none;
+        }
+        @keyframes fall {
+        to {
+            transform: translateY(120vh) rotate(360deg);
+            opacity: 0;
+        }
+        }
+    </style>
+
+    <script>
+        const text = "Happy Birthday";
+        let i = 0;
+        const typingEl = document.getElementById("typing");
+
+        function type(){
+            if (i < text.length){
+                typingEl.textContent += text[i];
+                i++;
+                setTimeout(type, 120);
+            }
+        }
+        type();
+
+        const colors = ["#ff6fae", "#ffffff", "#ffbd06", "#ffbd06", "#ffbd06"]; 
+
+        let lastZone = -1;
+
+        function createDecoration(type) {
+            const el = document.createElement("div");
+            el.className = type;
+            
+            let zone;
+            do {
+                zone = Math.floor(Math.random() * 5);
+            } while (zone === lastZone); 
+            lastZone = zone;
+
+            const zoneWidth = 20;
+            const randomLeft = (zone * zoneWidth) + (Math.random() * zoneWidth);
+            
+            el.style.left = randomLeft + "vw";
+            
+            if (type === "confetti") {
+
+                el.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                const duration = Math.random() * 3 + 3;
+                el.style.animationDuration = duration + "s";
+                el.style.transform = `rotate(${Math.random() * 360}deg)`;
+            } else {
+                const size = Math.random() * 10 + 25;
+                el.style.width = size + "px";
+                el.style.height = (size * 1.3) + "px";
+                el.style.animationDuration = (Math.random() * 4 + 7) + "s";
+            }
+            document.body.appendChild(el);
+            setTimeout(() => { el.remove(); }, 10000);
+        }
+        setInterval(() => createDecoration("balloon"), 2500);
+        setInterval(() => createDecoration("confetti"), 400);
+    </script>
+
+    <!--surat-->
+    <section id="surat">
+        <img id="i1" class="torn-paper" src="paper.png">
+        <img id="flowSurat" src="flower.png">    
+        <img id="flowSurat2" src="flower.png">    
+        <div class="kertas-putih">
+            <div class="container">
+            <h3><span>Syahla, liat deh</span><br>ada surat untukmu nih. buka ya!</h3>
+            <div class="envelope-wrapper" onclick="this.classList.toggle('open')">
+                <div class="envelope">
+                    <div class="top-flap"></div>
+                    <div class="heart"></div> <!-- Ini tombol lovenya -->
+                    <div class="letter">
+                        <h4>Buat syahla</h4>
+                        <p>Selamat ulang tahun, ya! Semoga hal terbaik dateng buatmu, amin. Tepat 15 tahun yang lalu, semua orang bahagia karna kamu lahir :) Inget, kamu itu berharga dan spesial, cuman satu soalnya >3<</p>
+                    </div>
+                    <div class="front"></div>
+                </div>
+            </div>
+            </div>
+            
+        </div>
+        <img id="i3" class="torn-paper" src="paper.png">
+    </section>
+
+    <style>
+        .container span{
+            font-family: 'Dancing Script';
+            font-size: 50px;
+            color: #e74c3c;
+        }
+        #surat .kertas-putih .container h3{
+            color:#f08080;
+            position: absolute;
+            z-index: 10;
+            text-align: center;
+            top: -5px;
+            
+        }
+        @media (max-width: 600px) {
+            /* Tambahkan #surat di depannya agar kekuatannya setara */
+            #surat .kertas-putih .container h3 {
+                top: 120px; /* Sekarang ini akan jalan */
+                font-size: 12px;
+            }
+
+            /* Sisanya... */
+            .kertas-putih .container span {
+                font-size: 30px;
+            }
+            .envelope-wrapper {
+                top: 240px;
+            }
+        }
+        :root {
+        --bg-pink: #ffd6e7;
+        --envelope-color: #f08080;
+        --paper-white: linear-gradient(135deg, #e0e0e0 0%, #ffffff 25%, #ffffff 75%, #e0e0e0 100%);
+        }
+
+        /* Animasi Bergetar Terjeda */
+        @keyframes shake-pause {
+            0%, 10% { transform: rotate(0deg); }
+            2%, 6% { transform: rotate(5deg); }
+            4%, 8% { transform: rotate(-5deg); }
+            11%, 100% { transform: rotate(0deg); }
+        }
+
+        /* Container Utama untuk Pusatkan Amplop */
+        .container {
+            position: absolute  ;
+            display: flex;
+            flex-direction: column;
+            top: -50px;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+        }
+
+        .envelope-wrapper {
+            position: absolute;
+            cursor: pointer;
+            animation: shake-pause 3s infinite;
+            transition: all 0.5s ease;
+            width: 280px; /* Ukuran tetap untuk HP agar stabil */
+            height: 180px;
+            z-index: 30;
+        }
+
+
+        @media (min-width: 601px) and (max-width: 900px) {
+            #surat .kertas-putih h3{
+                top: -10px;
+                font-size: 12px;
+                text-align: center;
+            }
+            .kertas-putih span{
+                font-size: 40px;
+            }
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%; 
+            height: 100%;
+            background-color: var(--envelope-color);
+            border-radius: 0 0 5px 5px;
+            perspective: 1000px;
+        }
+
+        /* Bagian Penutup (Atas) */
+        .top-flap {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 140px solid transparent;
+            border-right: 140px solid transparent;
+            border-top: 100px solid var(--envelope-color);
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3;
+        }
+
+        /* Bagian Depan (Bentuk V) */
+        .front {
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 140px solid #f4978e;
+            border-right: 140px solid #f4978e;
+            border-bottom: 90px solid #f4978e;
+            border-top: 90px solid transparent;
+            z-index: 4;
+        }
+
+        .letter h4{
+            font-family: 'Dancing Script';
+            font-size: 30px;
+        }
+        .letter {
+            overflow: hidden;
+            position: absolute;
+            align-items: center;
+            font-weight: 100;
+            bottom: 0;
+            left: 5%;
+            width: 90%;
+            height: 100%;
+            background: var(--paper-white);
+            transition: all 0.8s ease;
+            z-index: 2;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #333;
+        }
+
+        /* Animasi Surat Keluar saat Amplop dibuka */
+        .envelope-wrapper.open .letter {
+            transform: translateY(-100px) scale(1.1); /* Surat naik ke atas */
+            z-index: 50; /* Biar di depan amplop */
+            height: 370px;
+            align-items: center;
+        }
+
+        /* Penyesuaian Surat untuk Layar Besar */
+        @media (min-width: 600px) {
+            .envelope-wrapper.open .letter {
+                transform: translateY(-150px) scale(1.1);
+                height: 250px;
+            }
+        }
+
+        .envelope-wrapper.open .top-flap {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Tombol Love di Tengah */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 30px;
+            height: 30px;
+            background: #e74c3c;
+            z-index: 5;
+            transform: translate(-50%, -20%) rotate(45deg);
+            transition: all 0.5s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .heart:before, .heart:after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #e74c3c;
+            border-radius: 50%;
+        }
+
+        .heart:before { left: -15px; }
+        .heart:after { top: -15px; }
+
+        /* Sembunyikan Love saat terbuka */
+        .envelope-wrapper.open .heart {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+
+        /* Penyesuaian khusus Tablet (iPad dll) */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .envelope-wrapper.open .letter {
+                transform: translateY(-50%) scale(1.3);
+            }
+        }
+        
+        #surat {
+            position: relative;
+            width: 100%;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+        .torn-paper {
+            width: 100%;
+            display: block;
+            z-index: 10;
+            margin: -1px 0; 
+            /* box-shadow: 2px 10px 20px rgba(0, 0, 0, 0.1); */
+        }
+        #i3 {
+            transform: rotate(180deg);
+        }
+        .kertas-putih {
+            background: linear-gradient(
+                135deg, 
+                #e0e0e0 0%,
+                #F5F5F5 25%,
+                #F5F5F5 75%,
+                #e0e0e0 100%
+            );
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+        }
+        @media (min-width: 1110px) {
+            .kertas-putih{
+                height: 50dvh;
+                background: linear-gradient(
+                135deg, 
+                    #e0e0e0 0%,
+                    #F5F5F5 25%,
+                    #F5F5F5 75%,
+                    #e0e0e0 100%
+                );
+            }
+        }
+        #flowSurat{
+            position: absolute;
+            z-index: 10;
+            left: 40px;
+            top: 40px;
+            width: 200px;
+            height: auto;
+            display: flex;
+        }
+        #flowSurat2{
+            position: absolute;
+            z-index: 10;
+            left: 160px;
+            top: 160px;
+            width: 150px;
+            height: auto;
+            display: flex;
+        }
+        @media (max-width: 1000px) {
+            #flowSurat{
+                left: 10px;
+                top: 10px;
+                width: 100px;
+                height: auto;
+            }
+            #flowSurat2{
+                left: 80px;
+                top: 80px;
+                width: 80px;
+                height: auto;
+            }    
+        }
+        @media (min-width: 768px){
+            #surat .kertas-putih .container h3 {
+                top: 10px; /* Sekarang ini akan jalan */
+                font-size: 15px;
+            }
+
+            /* Sisanya... */
+            .kertas-putih .container span {
+                font-size: 50px;
+            }
+            .envelope-wrapper {
+                width: 450px;
+                height: 300px;
+                .top-flap { border-left: 225px solid transparent; border-right: 225px solid transparent; border-top: 150px solid var(--envelope-color); }
+                .front { border-left: 225px solid #f4978e; border-right: 225px solid #f4978e; border-bottom: 150px solid #f4978e; border-top: 150px solid transparent; }
+            }
+        }
+    </style>
+
+    <!--kado-->
+    <section id="kado">
+        <div class="gift-section">
+            <h2 class="gift-title" id="h2"><span>Kado-mu di sini<br></span>click kadonya!</h2>
+            
+            <div class="gift-container" id="giftBox" onclick="openGift()">
+                <!-- Tutup Kado -->
+                <div class="gift-lid"></div>
+                <!-- Pita -->
+                <div class="gift-ribbon"></div>
+                <!-- Badan Kado -->
+                <div class="gift-box-body"></div>
+            </div>
+            
+            <!-- Kartu Hadiah (Muncul setelah diklik) -->
+            <div class="gift-card" id="giftCard">
+                <img id="rib" src="ribbonPink.png">
+                <h3>Special gift for you!</h3>
+                <p>Ahla udah bikinin sesuatu yang spesial buat kamu. semoga suka ya!</p>
+                <a href="https://scrouftideas.vercel.app/" target="_blank" class="shop-btn">Scrouftideas 🛍️</a>
+            </div>
+            <!-- <img id="kadoImg" src="ribbon.png"> -->
+        </div>
+    </section>
+
+    <style>
+        :root {
+            --pink-light: #ffcad4;
+            --pink-main: #f4acb7;
+            --pink-dark: #ff8fa3;
+            --white: #ffffff;
+        }
+
+        /* REVISI: Menggunakan Flexbox untuk centering sempurna */
+        #kado {
+            position: relative;
+            width: 100%;
+            min-height: 100vh; /* Tinggi satu layar penuh */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .gift-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .gift-title {
+            color: #d63384;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .gift-title span {
+            font-family: 'Dancing Script', cursive;
+            font-size: 30px;
+            color: #e74c3c;
+        }
+
+        /* Container Kado */
+        .gift-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 40px auto;
+            cursor: pointer;
+            animation: shake 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        /* Badan Kado */
+        .gift-box-body {
+            width: 100%;
+            height: 100%;
+            background-color: var(--pink-main);
+            border-radius: 10px;
+            box-shadow: 0 15px 25px -10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        /* Tutup Kado */
+        .gift-lid {
+            position: absolute;
+            width: 110%;
+            height: 30px;
+            background-color: var(--pink-dark);
+            top: -10px;
+            left: -5%;
+            z-index: 2;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+
+        /* Pita Vertikal */
+        .gift-ribbon {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background-color: #ff4d6d;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        /* Animasi Bergetar */
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            10%, 30%, 50% { transform: rotate(-5deg); }
+            20%, 40%, 60% { transform: rotate(5deg); }
+        }
+
+        /* Gaya saat kado dibuka */
+        .gift-container.opened {
+            animation: none;
+        }
+
+        .gift-container.opened .gift-lid {
+            transform: translateY(-120px) rotate(20deg);
+            opacity: 0;
+        }
+
+        /* Kartu Hadiah */
+        .gift-card {
+            max-width: 320px;
+            background: white;
+            color: #d63384;
+            padding: 25px;
+            border-radius: 20px;
+            display: none; /* Sembunyi awal */
+            opacity: 0;
+            transform: scale(0.8);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: all 0.5s ease;
+        }
+
+        .gift-card.show {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #rib {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .gift-card h3 {
+            color: #e74c3c;
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            margin: 10px 0;
+        }
+
+        .gift-card p {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        .shop-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background-color: #ff4d6d;
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.4);
+            transition: 0.3s;
+        }
+
+        .shop-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.6);
+        }
+    </style>
+
+    <script>
+        function openGift() {
+            const giftBox = document.getElementById('giftBox');
+            const giftCard = document.getElementById('giftCard');
+            const h2 = document.getElementById('h2');
+
+            // 1. Tambah class dibuka untuk animasi tutup terbang
+            giftBox.classList.add('opened');
+            h2.style.display = "none";
+            // 2. Tunggu sebentar (efek unboxing) lalu munculkan kartu
+            setTimeout(() => {
+                giftBox.style.display = 'none'; // Sembunyikan kotak kado
+                giftCard.classList.add('show'); // Munculkan kartu kado
+            }, 600);
+        }
+    </script>
+</body>
+</html>
